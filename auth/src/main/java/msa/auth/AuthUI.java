@@ -93,6 +93,10 @@ public class AuthUI {
      */
     public static final int NO_LOGO = -1;
     /**
+     * Default value for background resource, omits the logo from the {@link AuthMethodPickerActivity}.
+     */
+    public static final int NO_BACKGROUND = -1;
+    /**
      * The set of authentication providers supported in Firebase Auth UI.
      */
     public static final Set<String> SUPPORTED_PROVIDERS =
@@ -374,6 +378,7 @@ public class AuthUI {
      */
     @SuppressWarnings(value = "unchecked")
     private abstract class AuthIntentBuilder<T extends AuthIntentBuilder> {
+        int mBackground = NO_BACKGROUND;
         int mLogo = NO_LOGO;
         int mTheme = getDefaultTheme();
         List<IdpConfig> mProviders = new ArrayList<>();
@@ -396,6 +401,15 @@ public class AuthUI {
                     theme,
                     "theme identifier is unknown or not a style definition");
             mTheme = theme;
+            return (T) this;
+        }
+
+        /**
+         * Specifies the background to use for the {@link AuthMethodPickerActivity}. If no logo
+         * is specified, none will be used.
+         */
+        public T setBackgroundDrawable(@DrawableRes int background) {
+            mBackground = background;
             return (T) this;
         }
 

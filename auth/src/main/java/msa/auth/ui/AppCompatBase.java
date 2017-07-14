@@ -21,9 +21,12 @@ import android.support.annotation.RestrictTo;
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class AppCompatBase extends HelperActivityBase {
 
+    public boolean isForAuthPickerActivity;
+
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        if (!isForAuthPickerActivity)
         mActivityHelper.configureTheme();
     }
 

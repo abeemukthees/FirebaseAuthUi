@@ -16,13 +16,17 @@ package msa.auth.ui.idp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.AuthCredential;
@@ -73,22 +77,40 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isForAuthPickerActivity = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth_method_picker_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         mSaveSmartLock = mActivityHelper.getSaveSmartLockInstance();
 
         populateIdpList(mActivityHelper.getFlowParams().providerInfo);
 
+
         int logoId = mActivityHelper.getFlowParams().logoId;
         if (logoId == AuthUI.NO_LOGO) {
+
             findViewById(R.id.logo_layout).setVisibility(View.GONE);
         } else {
             ImageView logo = (ImageView) findViewById(R.id.logo);
             logo.setImageResource(logoId);
         }
+
+        //Log.d(TAG, "Background id = " + mActivityHelper.getFlowParams().logoId);
+
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+
+        //int backgroundId = mActivityHelper.getFlowParams().backgroundId;
+        //if (backgroundId != NO_BACKGROUND) coordinatorLayout.setBackgroundResource(backgroundId);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
     }
+
 
     private void populateIdpList(List<IdpConfig> providers) {
         mProviders = new ArrayList<>();
