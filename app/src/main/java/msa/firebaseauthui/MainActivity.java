@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
                             .setAvailableProviders(
                                     Arrays.asList(
                                             new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                                            new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build(),
-                                            new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build()))
+                                            new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()
+                                    ))
                             .alwaysShowAuthMethodPicker(true)
                             .setLogo(R.drawable.ic_store_mall_directory)
                             .setBackgroundDrawable(R.drawable.bg_auth_picker)

@@ -15,6 +15,7 @@ package msa.auth.ui;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -40,6 +41,9 @@ public class FlowParameters implements Parcelable {
             List<IdpConfig> providerInfo = in.createTypedArrayList(IdpConfig.CREATOR);
             int themeId = in.readInt();
             int logoId = in.readInt();
+            int backgroundId = in.readInt();
+            int phoneButtonBackgroundColor = in.readInt();
+
             String termsOfServiceUrl = in.readString();
             String privacyPolicyUrl = in.readString();
             boolean enableCredentials = in.readInt() != 0;
@@ -52,6 +56,8 @@ public class FlowParameters implements Parcelable {
                     providerInfo,
                     themeId,
                     logoId,
+                    backgroundId,
+                    phoneButtonBackgroundColor,
                     termsOfServiceUrl,
                     privacyPolicyUrl,
                     enableCredentials,
@@ -73,6 +79,10 @@ public class FlowParameters implements Parcelable {
     public final int themeId;
     @DrawableRes
     public final int logoId;
+    @DrawableRes
+    public final int backgroundId;
+    @ColorRes
+    public final int phoneButtonBackgroundColor;
     @Nullable
     public final String termsOfServiceUrl;
     @Nullable
@@ -87,6 +97,8 @@ public class FlowParameters implements Parcelable {
             @NonNull List<IdpConfig> providerInfo,
             @StyleRes int themeId,
             @DrawableRes int logoId,
+            @DrawableRes int backgroundId,
+            @ColorRes int phoneButtonBackgroundColor,
             @Nullable String termsOfServiceUrl,
             @Nullable String privacyPolicyUrl,
             boolean enableCredentials,
@@ -98,6 +110,8 @@ public class FlowParameters implements Parcelable {
                 Preconditions.checkNotNull(providerInfo, "providerInfo cannot be null"));
         this.themeId = themeId;
         this.logoId = logoId;
+        this.backgroundId = backgroundId;
+        this.phoneButtonBackgroundColor = phoneButtonBackgroundColor;
         this.termsOfServiceUrl = termsOfServiceUrl;
         this.privacyPolicyUrl = privacyPolicyUrl;
         this.enableCredentials = enableCredentials;
@@ -112,6 +126,8 @@ public class FlowParameters implements Parcelable {
         dest.writeTypedList(providerInfo);
         dest.writeInt(themeId);
         dest.writeInt(logoId);
+        dest.writeInt(backgroundId);
+        dest.writeInt(phoneButtonBackgroundColor);
         dest.writeString(termsOfServiceUrl);
         dest.writeString(privacyPolicyUrl);
         dest.writeInt(enableCredentials ? 1 : 0);

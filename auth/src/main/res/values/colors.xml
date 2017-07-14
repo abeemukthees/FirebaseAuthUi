@@ -7,4 +7,6 @@
     <color name="errorColor">#DD2C00</color>
     <color name="linkColor">#4285F4</color>
     <color name="transparent">#00000000</color>
+
+    <color name="phoneButtonColor">#43C5A5</color>
 </resources>

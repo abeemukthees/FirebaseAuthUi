@@ -16,11 +16,15 @@ package msa.auth.ui.idp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -54,6 +58,10 @@ import msa.auth.ui.TaskFailureLogger;
 import msa.auth.ui.email.RegisterEmailActivity;
 import msa.auth.util.signincontainer.SaveSmartLock;
 
+import static msa.auth.AuthUI.NO_BACKGROUND;
+import static msa.auth.AuthUI.PHONE_VERIFICATION_PROVIDER;
+import static msa.auth.AuthUI.PH_BTN_DEFAULT_COLOR;
+
 /**
  * Presents the list of authentication options for this app to the user. If an
  * identity provider option is selected, a {@link CredentialSignInHandler}
@@ -71,6 +79,8 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
     @Nullable
     private SaveSmartLock mSaveSmartLock;
 
+    private Drawable mPhoneAuthButtonBackgroundDrawable;
+
     public static Intent createIntent(Context context, FlowParameters flowParams) {
         return BaseHelper.createBaseIntent(context, AuthMethodPickerActivity.class, flowParams);
     }
@@ -82,7 +92,13 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
         setContentView(R.layout.auth_method_picker_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
         mSaveSmartLock = mActivityHelper.getSaveSmartLockInstance();
 
         populateIdpList(mActivityHelper.getFlowParams().providerInfo);
@@ -97,17 +113,11 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
             logo.setImageResource(logoId);
         }
 
-        //Log.d(TAG, "Background id = " + mActivityHelper.getFlowParams().logoId);
-
         CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
-        //int backgroundId = mActivityHelper.getFlowParams().backgroundId;
-        //if (backgroundId != NO_BACKGROUND) coordinatorLayout.setBackgroundResource(backgroundId);
+        int backgroundId = mActivityHelper.getFlowParams().backgroundId;
+        if (backgroundId != NO_BACKGROUND) coordinatorLayout.setBackgroundResource(backgroundId);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow();
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
 
     }
 
@@ -142,6 +152,14 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
         for (final Provider provider : mProviders) {
             View loginButton = getLayoutInflater()
                     .inflate(provider.getButtonLayout(), btnHolder, false);
+
+            if (provider.getProviderId().equals(PHONE_VERIFICATION_PROVIDER) && mActivityHelper.getFlowParams().phoneButtonBackgroundColor != PH_BTN_DEFAULT_COLOR) {
+
+                mPhoneAuthButtonBackgroundDrawable = ContextCompat.getDrawable(this, R.drawable.idp_button_background_phone);
+                mPhoneAuthButtonBackgroundDrawable.setColorFilter(new PorterDuffColorFilter(ContextCompat.getColor(this, mActivityHelper.getFlowParams().phoneButtonBackgroundColor), PorterDuff.Mode.SRC_IN));
+                loginButton.setBackground(mPhoneAuthButtonBackgroundDrawable);
+
+            }
 
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override

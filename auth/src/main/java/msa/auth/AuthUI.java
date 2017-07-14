@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.CallSuper;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -96,6 +97,10 @@ public class AuthUI {
      * Default value for background resource, omits the logo from the {@link AuthMethodPickerActivity}.
      */
     public static final int NO_BACKGROUND = -1;
+    /**
+     * Default value for background resource, omits the logo from the {@link AuthMethodPickerActivity}.
+     */
+    public static final int PH_BTN_DEFAULT_COLOR = -1;
     /**
      * The set of authentication providers supported in Firebase Auth UI.
      */
@@ -380,6 +385,7 @@ public class AuthUI {
     private abstract class AuthIntentBuilder<T extends AuthIntentBuilder> {
         int mBackground = NO_BACKGROUND;
         int mLogo = NO_LOGO;
+        int mPhoneButtonBackgroundColor = PH_BTN_DEFAULT_COLOR;
         int mTheme = getDefaultTheme();
         List<IdpConfig> mProviders = new ArrayList<>();
         String mTosUrl;
@@ -405,6 +411,15 @@ public class AuthUI {
         }
 
         /**
+         * Specifies the logo to use for the {@link AuthMethodPickerActivity}. If no logo
+         * is specified, none will be used.
+         */
+        public T setLogo(@DrawableRes int logo) {
+            mLogo = logo;
+            return (T) this;
+        }
+
+        /**
          * Specifies the background to use for the {@link AuthMethodPickerActivity}. If no logo
          * is specified, none will be used.
          */
@@ -414,11 +429,11 @@ public class AuthUI {
         }
 
         /**
-         * Specifies the logo to use for the {@link AuthMethodPickerActivity}. If no logo
-         * is specified, none will be used.
+         * Specifies the background color of phone button to use for the {@link AuthMethodPickerActivity}. If no color
+         * is specified, default color will be used.
          */
-        public T setLogo(@DrawableRes int logo) {
-            mLogo = logo;
+        public T setPhoneButtonBackgroundColor(@ColorRes int phoneButtonBackgroundColor) {
+            mPhoneButtonBackgroundColor = phoneButtonBackgroundColor;
             return (T) this;
         }
 
@@ -587,6 +602,8 @@ public class AuthUI {
                     mProviders,
                     mTheme,
                     mLogo,
+                    mBackground,
+                    mPhoneButtonBackgroundColor,
                     mTosUrl,
                     mPrivacyPolicyUrl,
                     mEnableCredentials,

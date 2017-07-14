@@ -43,7 +43,7 @@ public class SubmitConfirmationCodeFragment extends FragmentBase {
 
     public static final String TAG = "SubmitConfirmationCodeFragment";
 
-    private static final long RESEND_WAIT_MILLIS = 15000;
+    private static final long RESEND_WAIT_MILLIS = 20000;
     private static final String EXTRA_MILLIS_UNTIL_FINISHED = "EXTRA_MILLIS_UNTIL_FINISHED";
 
     private TextView mEditPhoneTextView;
