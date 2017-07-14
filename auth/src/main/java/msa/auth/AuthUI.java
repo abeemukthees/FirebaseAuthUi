@@ -381,6 +381,7 @@ public class AuthUI {
         String mPrivacyPolicyUrl;
         boolean mEnableCredentials = true;
         boolean mEnableHints = true;
+        boolean alwaysShowAuthMethodPicker = false;
 
         private AuthIntentBuilder() {
         }
@@ -528,6 +529,11 @@ public class AuthUI {
             return (T) this;
         }
 
+        public T alwaysShowAuthMethodPicker(boolean alwaysShowAuthMethodPicker) {
+            this.alwaysShowAuthMethodPicker = alwaysShowAuthMethodPicker;
+            return (T) this;
+        }
+
         @CallSuper
         public Intent build() {
             if (mProviders.isEmpty()) {
@@ -571,7 +577,8 @@ public class AuthUI {
                     mPrivacyPolicyUrl,
                     mEnableCredentials,
                     mEnableHints,
-                    mAllowNewEmailAccounts);
+                    mAllowNewEmailAccounts,
+                    alwaysShowAuthMethodPicker);
         }
     }
 }

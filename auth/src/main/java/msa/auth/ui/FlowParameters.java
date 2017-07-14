@@ -45,6 +45,7 @@ public class FlowParameters implements Parcelable {
             boolean enableCredentials = in.readInt() != 0;
             boolean enableHints = in.readInt() != 0;
             boolean allowNewEmailAccounts = in.readInt() != 0;
+            boolean alwaysShowAuthMethodPicker = false;
 
             return new FlowParameters(
                     appName,
@@ -55,7 +56,8 @@ public class FlowParameters implements Parcelable {
                     privacyPolicyUrl,
                     enableCredentials,
                     enableHints,
-                    allowNewEmailAccounts);
+                    allowNewEmailAccounts,
+                    alwaysShowAuthMethodPicker);
         }
 
         @Override
@@ -78,6 +80,7 @@ public class FlowParameters implements Parcelable {
     public final boolean allowNewEmailAccounts;
     public final boolean enableCredentials;
     public final boolean enableHints;
+    public final boolean alwaysShowAuthMethodPicker;
 
     public FlowParameters(
             @NonNull String appName,
@@ -88,7 +91,8 @@ public class FlowParameters implements Parcelable {
             @Nullable String privacyPolicyUrl,
             boolean enableCredentials,
             boolean enableHints,
-            boolean allowNewEmailAccounts) {
+            boolean allowNewEmailAccounts,
+            boolean alwaysShowAuthMethodPicker) {
         this.appName = Preconditions.checkNotNull(appName, "appName cannot be null");
         this.providerInfo = Collections.unmodifiableList(
                 Preconditions.checkNotNull(providerInfo, "providerInfo cannot be null"));
@@ -99,6 +103,7 @@ public class FlowParameters implements Parcelable {
         this.enableCredentials = enableCredentials;
         this.enableHints = enableHints;
         this.allowNewEmailAccounts = allowNewEmailAccounts;
+        this.alwaysShowAuthMethodPicker = alwaysShowAuthMethodPicker;
     }
 
     @Override

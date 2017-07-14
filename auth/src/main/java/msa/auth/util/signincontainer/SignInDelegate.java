@@ -249,7 +249,7 @@ public class SignInDelegate extends SmartLockBase<CredentialRequestResult> {
         List<IdpConfig> visibleProviders = idpConfigs;
 
         // If there is only one provider selected, launch the flow directly
-        if (visibleProviders.size() == 1) {
+        if (visibleProviders.size() == 1 && flowParams.alwaysShowAuthMethodPicker) {
             String firstProvider = visibleProviders.get(0).getProviderId();
             if (firstProvider.equals(EmailAuthProvider.PROVIDER_ID)) {
                 // Go directly to email flow
