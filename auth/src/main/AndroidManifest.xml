@@ -1,29 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     package="msa.auth">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true">
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="@string/twitter_consumer_secret" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_application_id" />
-
         <meta-data
             android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
             android:value="${enableFbLogging}" />
@@ -33,45 +28,37 @@
             android:exported="false"
             android:label=""
             android:theme="@style/FirebaseUI.Transparent" />
-
         <activity
             android:name=".ui.email.RecoverPasswordActivity"
             android:exported="false"
             android:label="@string/title_recover_password_activity" />
-
         <activity
             android:name=".ui.email.RegisterEmailActivity"
             android:exported="false"
             android:label="@string/sign_in_default" />
-
         <activity
             android:name=".ui.phone.PhoneVerificationActivity"
             android:exported="false"
             android:label="@string/sign_in_with_phone_number"
             android:windowSoftInputMode="stateAlwaysVisible" />
-
         <activity
             android:name=".ui.accountlink.WelcomeBackIdpPrompt"
             android:exported="false"
             android:label="@string/title_welcome_back_idp_prompt" />
-
         <activity
             android:name=".ui.accountlink.WelcomeBackPasswordPrompt"
             android:exported="false"
             android:label="@string/title_welcome_back_password_prompt" />
-
         <activity
             android:name=".ui.idp.AuthMethodPickerActivity"
             android:exported="false"
             android:label="@string/default_toolbar_title"
             android:theme="@style/FirebaseUI.NoActionBar" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             tools:ignore="MissingRegistered" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true"
@@ -85,7 +72,6 @@
                 <data android:scheme="@string/facebook_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

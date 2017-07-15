@@ -50,6 +50,7 @@ public class FlowParameters implements Parcelable {
             boolean enableHints = in.readInt() != 0;
             boolean allowNewEmailAccounts = in.readInt() != 0;
             boolean alwaysShowAuthMethodPicker = false;
+            String intentToStartAfterSuccessfulLogin = in.readString();
 
             return new FlowParameters(
                     appName,
@@ -63,7 +64,8 @@ public class FlowParameters implements Parcelable {
                     enableCredentials,
                     enableHints,
                     allowNewEmailAccounts,
-                    alwaysShowAuthMethodPicker);
+                    alwaysShowAuthMethodPicker,
+                    intentToStartAfterSuccessfulLogin);
         }
 
         @Override
@@ -91,6 +93,7 @@ public class FlowParameters implements Parcelable {
     public final boolean enableCredentials;
     public final boolean enableHints;
     public final boolean alwaysShowAuthMethodPicker;
+    public final String intentToStartAfterSuccessfulLogin;
 
     public FlowParameters(
             @NonNull String appName,
@@ -104,7 +107,8 @@ public class FlowParameters implements Parcelable {
             boolean enableCredentials,
             boolean enableHints,
             boolean allowNewEmailAccounts,
-            boolean alwaysShowAuthMethodPicker) {
+            boolean alwaysShowAuthMethodPicker,
+            String intentToStartAfterSuccessfulLogin) {
         this.appName = Preconditions.checkNotNull(appName, "appName cannot be null");
         this.providerInfo = Collections.unmodifiableList(
                 Preconditions.checkNotNull(providerInfo, "providerInfo cannot be null"));
@@ -118,6 +122,7 @@ public class FlowParameters implements Parcelable {
         this.enableHints = enableHints;
         this.allowNewEmailAccounts = allowNewEmailAccounts;
         this.alwaysShowAuthMethodPicker = alwaysShowAuthMethodPicker;
+        this.intentToStartAfterSuccessfulLogin = intentToStartAfterSuccessfulLogin;
     }
 
     @Override
@@ -133,6 +138,7 @@ public class FlowParameters implements Parcelable {
         dest.writeInt(enableCredentials ? 1 : 0);
         dest.writeInt(enableHints ? 1 : 0);
         dest.writeInt(allowNewEmailAccounts ? 1 : 0);
+        dest.writeString(intentToStartAfterSuccessfulLogin);
     }
 
     @Override

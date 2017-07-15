@@ -14,6 +14,7 @@
 
 package msa.auth.ui.idp;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -42,6 +43,7 @@ import msa.auth.AuthUI;
 import msa.auth.AuthUI.IdpConfig;
 import msa.auth.IdpResponse;
 import msa.auth.R;
+import msa.auth.ResultCodes;
 import msa.auth.provider.EmailProvider;
 import msa.auth.provider.FacebookProvider;
 import msa.auth.provider.GoogleProvider;
@@ -180,7 +182,12 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Log.d(TAG, "onActivityResult = " + resultCode);
         if (requestCode == RC_ACCOUNT_LINK) {
+            launchReceviedActivity();
+            finish(resultCode, data);
+        } else if (resultCode == ResultCodes.OK) {
+            launchReceviedActivity();
             finish(resultCode, data);
         } else {
             for (Provider provider : mProviders) {
@@ -191,6 +198,7 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
 
     @Override
     public void onSuccess(final IdpResponse response) {
+        //Log.d(TAG, "onSuccess");
         AuthCredential credential = ProviderUtils.getAuthCredential(response);
         mActivityHelper.getFirebaseAuth()
                 .signInWithCredential(credential)
@@ -215,12 +223,24 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy");
         if (mProviders != null) {
             for (Provider provider : mProviders) {
                 if (provider instanceof GoogleProvider) {
                     ((GoogleProvider) provider).disconnect();
                 }
             }
+        }
+    }
+
+    private void launchReceviedActivity() {
+        if (mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin != null) {
+            //Log.d(TAG, "Received activity name 1 = " + mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin);
+            ComponentName componentName = new ComponentName(this, mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin);
+            //Log.d(TAG, "componentName = " + componentName.getClass().getSimpleName());
+            Intent intent = new Intent();
+            intent.setComponent(componentName);
+            startActivity(intent);
         }
     }
 }

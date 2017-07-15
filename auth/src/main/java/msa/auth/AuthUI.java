@@ -393,6 +393,7 @@ public class AuthUI {
         boolean mEnableCredentials = true;
         boolean mEnableHints = true;
         boolean alwaysShowAuthMethodPicker = false;
+        String intentToStartAfterSuccessfulLogin = null;
 
         private AuthIntentBuilder() {
         }
@@ -563,6 +564,11 @@ public class AuthUI {
             return (T) this;
         }
 
+        public T setIntentAfterSuccessfulLogin(String intentToStartAfterSuccessfulLogin) {
+            this.intentToStartAfterSuccessfulLogin = intentToStartAfterSuccessfulLogin;
+            return (T) this;
+        }
+
         @CallSuper
         public Intent build() {
             if (mProviders.isEmpty()) {
@@ -609,7 +615,8 @@ public class AuthUI {
                     mEnableCredentials,
                     mEnableHints,
                     mAllowNewEmailAccounts,
-                    alwaysShowAuthMethodPicker);
+                    alwaysShowAuthMethodPicker,
+                    intentToStartAfterSuccessfulLogin);
         }
     }
 }
