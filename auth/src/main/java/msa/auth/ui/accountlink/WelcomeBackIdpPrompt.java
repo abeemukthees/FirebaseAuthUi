@@ -14,6 +14,7 @@
 
 package msa.auth.ui.accountlink;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -68,6 +69,7 @@ public class WelcomeBackIdpPrompt extends AppCompatBase implements IdpCallback {
             IdpResponse newUserResponse) {
         return BaseHelper.createBaseIntent(context, WelcomeBackIdpPrompt.class, flowParams)
                 .putExtra(ExtraConstants.EXTRA_USER, existingUser)
+                .putExtra(ExtraConstants.EXTRA_FLOW_PARAMETERS, flowParams)
                 .putExtra(ExtraConstants.EXTRA_IDP_RESPONSE, newUserResponse);
     }
 
@@ -187,6 +189,9 @@ public class WelcomeBackIdpPrompt extends AppCompatBase implements IdpCallback {
                                     idpResponse.getProviderType()))
                     .addOnCompleteListener(new FinishListener(idpResponse));
         }
+
+        launchReceivedActivity();
+
     }
 
     @Override
@@ -197,6 +202,15 @@ public class WelcomeBackIdpPrompt extends AppCompatBase implements IdpCallback {
     private void finishWithError() {
         Toast.makeText(this, R.string.general_error, Toast.LENGTH_LONG).show();
         finish(ResultCodes.CANCELED, IdpResponse.getErrorCodeIntent(ErrorCodes.UNKNOWN_ERROR));
+    }
+
+    private void launchReceivedActivity() {
+        if (mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin != null) {
+            ComponentName componentName = new ComponentName(this, mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin);
+            Intent intent = new Intent();
+            intent.setComponent(componentName);
+            startActivity(intent);
+        }
     }
 
     private class FinishListener implements OnCompleteListener<AuthResult> {

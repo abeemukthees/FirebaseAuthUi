@@ -204,11 +204,11 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
         Log.d(TAG, "onActivityResult = " + resultCode);
         if (requestCode == RC_ACCOUNT_LINK) {
             Log.d(TAG, "onActivityResult -> requestCode == RC_ACCOUNT_LINK");
-            launchReceviedActivity();
+            launchReceivedActivity();
             finish(resultCode, data);
         } else if (resultCode == ResultCodes.OK) {
             Log.d(TAG, "onActivityResult -> resultCode == ResultCodes.OK");
-            launchReceviedActivity();
+            launchReceivedActivity();
             finish(resultCode, data);
         } else {
             Log.d(TAG, "onActivityResult -> else");
@@ -287,7 +287,7 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
         return !isOffline() && checkIfPlayServicesAvailable();
     }
 
-    private void launchReceviedActivity() {
+    private void launchReceivedActivity() {
         if (mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin != null) {
             //Log.d(TAG, "Received activity name 1 = " + mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin);
             ComponentName componentName = new ComponentName(this, mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin);

@@ -149,7 +149,7 @@ public class IdpSignInContainer extends FragmentBase implements IdpCallback {
         if (getArguments() != null && getArguments().containsKey(ExtraConstants.EXTRA_FLOW_PARAMETERS)) {
             FlowParameters flowParameters = getArguments().getParcelable(ExtraConstants.EXTRA_FLOW_PARAMETERS);
             if (flowParameters != null && flowParameters.intentToStartAfterSuccessfulLogin != null)
-                launchReceviedActivity(new ComponentName(getActivity(), flowParameters.intentToStartAfterSuccessfulLogin));
+                launchReceivedActivity(new ComponentName(getActivity(), flowParameters.intentToStartAfterSuccessfulLogin));
         }
 
     }
@@ -172,7 +172,7 @@ public class IdpSignInContainer extends FragmentBase implements IdpCallback {
         }
     }
 
-    private void launchReceviedActivity(ComponentName componentName) {
+    private void launchReceivedActivity(ComponentName componentName) {
         Intent intent = new Intent();
         intent.setComponent(componentName);
         startActivity(intent);
