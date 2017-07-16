@@ -133,12 +133,16 @@ public class SignInDelegate extends SmartLockBase<CredentialRequestResult> {
     public void onResult(@NonNull CredentialRequestResult result) {
         Status status = result.getStatus();
 
+        Log.d(TAG, "onResult Status = " + status);
+
         if (status.isSuccess()) {
             // Auto sign-in success
             handleCredential(result.getCredential());
+            Log.d(TAG, "Auto sign-in success = " + status);
             return;
         } else {
             if (status.hasResolution()) {
+                Log.d(TAG, "status.hasResolution() =  true");
                 try {
                     if (status.getStatusCode() == CommonStatusCodes.RESOLUTION_REQUIRED) {
                         mHelper.startIntentSenderForResult(
@@ -150,6 +154,7 @@ public class SignInDelegate extends SmartLockBase<CredentialRequestResult> {
                     Log.e(TAG, "Failed to send Credentials intent.", e);
                 }
             } else {
+                Log.d(TAG, "status.hasResolution() =  false");
                 Log.e(TAG, "Status message:\n" + status.getStatusMessage());
             }
         }
@@ -167,10 +172,12 @@ public class SignInDelegate extends SmartLockBase<CredentialRequestResult> {
         switch (requestCode) {
             case RC_CREDENTIALS_READ:
                 if (resultCode == ResultCodes.OK) {
+                    Log.d(TAG, "credential selected from SmartLock, log in with that credential");
                     // credential selected from SmartLock, log in with that credential
                     Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
                     handleCredential(credential);
                 } else {
+                    Log.d(TAG, "Smart lock selector cancelled, go to the AuthMethodPicker screen");
                     // Smart lock selector cancelled, go to the AuthMethodPicker screen
                     startAuthMethodChoice();
                 }
@@ -224,14 +231,17 @@ public class SignInDelegate extends SmartLockBase<CredentialRequestResult> {
     }
 
     private void handleCredential(Credential credential) {
+        Log.d(TAG, "handleCredential");
         mCredential = credential;
         String email = getEmailFromCredential();
         String password = getPasswordFromCredential();
         if (!TextUtils.isEmpty(email)) {
             if (TextUtils.isEmpty(password)) {
+                Log.d(TAG, "log in with id/provider");
                 // log in with id/provider
                 redirectToIdpSignIn(email, getAccountTypeFromCredential());
             } else {
+                Log.d(TAG, "Sign in with the email/password retrieved from SmartLock");
                 // Sign in with the email/password retrieved from SmartLock
                 signInWithEmailAndPassword(email, password);
             }
@@ -334,6 +344,7 @@ public class SignInDelegate extends SmartLockBase<CredentialRequestResult> {
     }
 
     private void redirectToIdpSignIn(String email, String accountType) {
+        Log.d(TAG, "redirectToIdpSignIn");
         if (TextUtils.isEmpty(accountType)) {
             startActivityForResult(
                     RegisterEmailActivity.createIntent(
@@ -347,6 +358,7 @@ public class SignInDelegate extends SmartLockBase<CredentialRequestResult> {
         if (accountType.equals(IdentityProviders.GOOGLE)
                 || accountType.equals(IdentityProviders.FACEBOOK)
                 || accountType.equals(IdentityProviders.TWITTER)) {
+            Log.d(TAG, "accountType.equals");
             IdpSignInContainer.signIn(
                     getActivity(),
                     mHelper.getFlowParams(),

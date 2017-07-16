@@ -103,4 +103,9 @@
     <string name="continue_phone_login" translation_description="Button text to submit phone number and send sms">Continue</string>
     <string name="sms_terms_of_service" translation_description="Fine print warning displayed below Verify Phone Number button">By tapping &#8220;%1$s&#8220;, an SMS may be sent. Message &amp; data rates may apply.</string>
 
+    <!--auth picker -->
+    <string name="error_msg_no_internet">No internet connection</string>
+    <string name="error_msg_no_play_services">Play services not available</string>
+    <string name="error_msg_login">Error login, Please try again</string>
+
 </resources>

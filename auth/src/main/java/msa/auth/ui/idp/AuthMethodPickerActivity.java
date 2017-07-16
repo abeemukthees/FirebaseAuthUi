@@ -16,15 +16,18 @@ package msa.auth.ui.idp;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -58,6 +61,7 @@ import msa.auth.ui.BaseHelper;
 import msa.auth.ui.FlowParameters;
 import msa.auth.ui.TaskFailureLogger;
 import msa.auth.ui.email.RegisterEmailActivity;
+import msa.auth.util.PlayServicesHelper;
 import msa.auth.util.signincontainer.SaveSmartLock;
 
 import static msa.auth.AuthUI.NO_BACKGROUND;
@@ -73,15 +77,20 @@ import static msa.auth.AuthUI.PH_BTN_DEFAULT_COLOR;
  */
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallback {
-    private static final String TAG = "AuthMethodPicker";
 
+    private static final String TAG = "AuthMethodPicker";
+    private static final String IS_WAITING_FOR_PLAY_SERVICES = "is_waiting_for_play_services";
+    private static final int RC_PLAY_SERVICES = 11;
     private static final int RC_ACCOUNT_LINK = 3;
+
+    private boolean mIsWaitingForPlayServices = false;
 
     private List<Provider> mProviders;
     @Nullable
     private SaveSmartLock mSaveSmartLock;
 
     private Drawable mPhoneAuthButtonBackgroundDrawable;
+
 
     public static Intent createIntent(Context context, FlowParameters flowParams) {
         return BaseHelper.createBaseIntent(context, AuthMethodPickerActivity.class, flowParams);
@@ -91,6 +100,7 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
     protected void onCreate(Bundle savedInstanceState) {
         isForAuthPickerActivity = true;
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
         setContentView(R.layout.auth_method_picker_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -119,7 +129,6 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
 
         int backgroundId = mActivityHelper.getFlowParams().backgroundId;
         if (backgroundId != NO_BACKGROUND) coordinatorLayout.setBackgroundResource(backgroundId);
-
 
     }
 
@@ -166,10 +175,20 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
             loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (provider instanceof IdpProvider) {
-                        mActivityHelper.showLoadingDialog(R.string.progress_dialog_loading);
-                    }
-                    provider.startLogin(AuthMethodPickerActivity.this);
+                    if (shouldAllowLogin()) {
+
+                        if (provider instanceof IdpProvider) {
+                            mActivityHelper.showLoadingDialog(R.string.progress_dialog_loading);
+                        }
+
+                        provider.startLogin(AuthMethodPickerActivity.this);
+
+                    } else if (isOffline())
+                        Snackbar.make(findViewById(android.R.id.content), R.string.error_msg_no_internet, Snackbar.LENGTH_SHORT).show();
+                    else if (!checkIfPlayServicesAvailable())
+                        Snackbar.make(findViewById(android.R.id.content), R.string.error_msg_no_play_services, Snackbar.LENGTH_SHORT).show();
+                    else
+                        Snackbar.make(findViewById(android.R.id.content), R.string.error_msg_login, Snackbar.LENGTH_SHORT).show();
                 }
             });
             if (provider instanceof IdpProvider) {
@@ -182,14 +201,17 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //Log.d(TAG, "onActivityResult = " + resultCode);
+        Log.d(TAG, "onActivityResult = " + resultCode);
         if (requestCode == RC_ACCOUNT_LINK) {
+            Log.d(TAG, "onActivityResult -> requestCode == RC_ACCOUNT_LINK");
             launchReceviedActivity();
             finish(resultCode, data);
         } else if (resultCode == ResultCodes.OK) {
+            Log.d(TAG, "onActivityResult -> resultCode == ResultCodes.OK");
             launchReceviedActivity();
             finish(resultCode, data);
         } else {
+            Log.d(TAG, "onActivityResult -> else");
             for (Provider provider : mProviders) {
                 provider.onActivityResult(requestCode, resultCode, data);
             }
@@ -198,7 +220,7 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
 
     @Override
     public void onSuccess(final IdpResponse response) {
-        //Log.d(TAG, "onSuccess");
+        Log.d(TAG, "onSuccess");
         AuthCredential credential = ProviderUtils.getAuthCredential(response);
         mActivityHelper.getFirebaseAuth()
                 .signInWithCredential(credential)
@@ -231,6 +253,38 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
                 }
             }
         }
+    }
+
+    /**
+     * Check if there is an active or soon-to-be-active network connection.
+     *
+     * @return true if there is no network connection, false otherwise.
+     */
+    private boolean isOffline() {
+        ConnectivityManager manager =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return !(manager != null
+                && manager.getActiveNetworkInfo() != null
+                && manager.getActiveNetworkInfo().isConnectedOrConnecting());
+    }
+
+    private boolean checkIfPlayServicesAvailable() {
+        return PlayServicesHelper.makePlayServicesAvailable(
+                this,
+                RC_PLAY_SERVICES,
+                new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        //finish(ResultCodes.CANCELED, IdpResponse.getErrorCodeIntent(ErrorCodes.UNKNOWN_ERROR));
+                        Snackbar.make(findViewById(android.R.id.content), "Play services not available", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    }
+                });
+
+    }
+
+    private boolean shouldAllowLogin() {
+        return !isOffline() && checkIfPlayServicesAvailable();
     }
 
     private void launchReceviedActivity() {

@@ -27,4 +27,6 @@ public class ExtraConstants {
     public static final String EXTRA_EMAIL = "extra_email";
     public static final String EXTRA_PHONE = "extra_phone_number";
     public static final String HAS_EXISTING_INSTANCE = "has_existing_instance";
+
+    public static final String EXTRA_FLOW_PARAMETERS = "extra_flow_parameters";
 }

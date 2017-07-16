@@ -14,6 +14,7 @@
 
 package msa.auth.util.signincontainer;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -63,6 +64,7 @@ public class IdpSignInContainer extends FragmentBase implements IdpCallback {
 
             Bundle bundle = FragmentHelper.getFlowParamsBundle(parameters);
             bundle.putParcelable(ExtraConstants.EXTRA_USER, user);
+            bundle.putParcelable(ExtraConstants.EXTRA_FLOW_PARAMETERS, parameters);
             result.setArguments(bundle);
 
             try {
@@ -130,6 +132,7 @@ public class IdpSignInContainer extends FragmentBase implements IdpCallback {
 
     @Override
     public void onSuccess(final IdpResponse response) {
+        Log.d(TAG, "onSuccess");
         AuthCredential credential = ProviderUtils.getAuthCredential(response);
         mHelper.getFirebaseAuth()
                 .signInWithCredential(credential)
@@ -142,10 +145,18 @@ public class IdpSignInContainer extends FragmentBase implements IdpCallback {
                         mSaveSmartLock,
                         RC_WELCOME_BACK_IDP,
                         response));
+
+        if (getArguments() != null && getArguments().containsKey(ExtraConstants.EXTRA_FLOW_PARAMETERS)) {
+            FlowParameters flowParameters = getArguments().getParcelable(ExtraConstants.EXTRA_FLOW_PARAMETERS);
+            if (flowParameters != null && flowParameters.intentToStartAfterSuccessfulLogin != null)
+                launchReceviedActivity(new ComponentName(getActivity(), flowParameters.intentToStartAfterSuccessfulLogin));
+        }
+
     }
 
     @Override
     public void onFailure(Bundle extra) {
+        Log.d(TAG, "onFailure");
         finish(ResultCodes.CANCELED, IdpResponse.getErrorCodeIntent(ErrorCodes.UNKNOWN_ERROR));
     }
 
@@ -153,9 +164,17 @@ public class IdpSignInContainer extends FragmentBase implements IdpCallback {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_WELCOME_BACK_IDP) {
+            Log.d(TAG, "onActivityResult -> requestCode == RC_WELCOME_BACK_IDP true");
             finish(resultCode, data);
         } else {
+            Log.d(TAG, "onActivityResult -> requestCode == RC_WELCOME_BACK_IDP false");
             mIdpProvider.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void launchReceviedActivity(ComponentName componentName) {
+        Intent intent = new Intent();
+        intent.setComponent(componentName);
+        startActivity(intent);
     }
 }

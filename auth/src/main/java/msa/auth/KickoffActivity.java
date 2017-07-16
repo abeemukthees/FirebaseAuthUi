@@ -1,7 +1,6 @@
 package msa.auth;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import msa.auth.ui.ActivityHelper;
 import msa.auth.ui.ExtraConstants;
 import msa.auth.ui.FlowParameters;
 import msa.auth.ui.HelperActivityBase;
-import msa.auth.util.PlayServicesHelper;
 import msa.auth.util.signincontainer.SignInDelegate;
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -30,8 +28,12 @@ public class KickoffActivity extends HelperActivityBase {
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        start();
+        Log.d(TAG, "onCreate");
 
-        if (savedInstance == null || savedInstance.getBoolean(IS_WAITING_FOR_PLAY_SERVICES)) {
+        // This code checks for internet & playservices & finishes AuthPickerActivity/AuthUi Activity immediately,
+        // So it has been disabled to keep the auth picker activity visible
+        /*if (savedInstance == null || savedInstance.getBoolean(IS_WAITING_FOR_PLAY_SERVICES)) {
             if (isOffline()) {
                 Log.d(TAG, "No network connection");
                 finish(ResultCodes.CANCELED,
@@ -56,7 +58,7 @@ public class KickoffActivity extends HelperActivityBase {
             } else {
                 mIsWaitingForPlayServices = true;
             }
-        }
+        }*/
     }
 
     @Override
@@ -70,20 +72,38 @@ public class KickoffActivity extends HelperActivityBase {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult");
         if (requestCode == RC_PLAY_SERVICES) {
+            Log.d(TAG, "onActivityResult requestCode RC_PLAY_SERVICES = " + RC_PLAY_SERVICES);
             if (resultCode == ResultCodes.OK) {
+                Log.d(TAG, "onActivityResult requestCode 2 = " + ResultCodes.OK);
                 start();
             } else {
+                Log.d(TAG, "onActivityResult requestCode Cancelled = " + ResultCodes.CANCELED);
                 finish(ResultCodes.CANCELED,
                         IdpResponse.getErrorCodeIntent(ErrorCodes.UNKNOWN_ERROR));
             }
         } else {
+            Log.d(TAG, "onActivityResult requestCode = something else ");
             SignInDelegate delegate = SignInDelegate.getInstance(this);
             if (delegate != null) delegate.onActivityResult(requestCode, resultCode, data);
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+
     private void start() {
+        Log.d(TAG, "start()");
         FlowParameters flowParams = mActivityHelper.getFlowParams();
         SignInDelegate.delegate(this, flowParams);
     }

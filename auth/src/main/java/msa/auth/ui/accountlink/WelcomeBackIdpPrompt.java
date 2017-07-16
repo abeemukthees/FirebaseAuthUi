@@ -76,6 +76,7 @@ public class WelcomeBackIdpPrompt extends AppCompatBase implements IdpCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_back_idp_prompt_layout);
 
+
         IdpResponse newUserIdpResponse = IdpResponse.fromResultIntent(getIntent());
         mPrevCredential = ProviderUtils.getAuthCredential(newUserIdpResponse);
 
@@ -132,6 +133,7 @@ public class WelcomeBackIdpPrompt extends AppCompatBase implements IdpCallback {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult");
         mIdpProvider.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -163,6 +165,7 @@ public class WelcomeBackIdpPrompt extends AppCompatBase implements IdpCallback {
                                                 idpResponse.getProviderType()))
                                         .addOnCompleteListener(new FinishListener(idpResponse));
                             } else {
+                                Log.e(TAG, "Finishing 1 -> ResultCodes.OK");
                                 finish(ResultCodes.OK, idpResponse.toIntent());
                             }
                         }
@@ -204,6 +207,7 @@ public class WelcomeBackIdpPrompt extends AppCompatBase implements IdpCallback {
         }
 
         public void onComplete(@NonNull Task task) {
+            Log.e(TAG, "FinishListener : Finishing 2 -> ResultCodes.OK");
             finish(ResultCodes.OK, mIdpResponse.toIntent());
         }
     }

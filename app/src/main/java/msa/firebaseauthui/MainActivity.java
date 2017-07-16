@@ -53,8 +53,23 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        startActivityForResult(
+                AuthUI.getInstance(firebaseApp)
+                        .createSignInIntentBuilder()
+                        .setIsSmartLockEnabled(true)
+                        .setAvailableProviders(
+                                Arrays.asList(
+                                        new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                                        new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()
+                                ))
+                        .alwaysShowAuthMethodPicker(true)
+                        .setLogo(R.drawable.ic_store_mall_directory)
+                        .setBackgroundDrawable(R.drawable.bg_auth_picker)
+                        .setIntentAfterSuccessfulLogin(HomeActivity.class.getName())
+                        .build(), 1);
 
-        if (user != null) {
+
+        /*if (user != null) {
             showToastMessage("Already Signed in");
         } else {
             // No user is signed in
@@ -72,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                             .setBackgroundDrawable(R.drawable.bg_auth_picker)
                             .setIntentAfterSuccessfulLogin(HomeActivity.class.getName())
                             .build(), 1);
-        }
+        }*/
 
     }
 
