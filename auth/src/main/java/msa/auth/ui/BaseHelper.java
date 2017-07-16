@@ -2,6 +2,7 @@ package msa.auth.ui;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.credentials.CredentialsApi;
@@ -18,6 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import msa.auth.IdpResponse;
+import msa.auth.KickoffActivity;
+import msa.auth.R;
 import msa.auth.ResultCodes;
 import msa.auth.util.signincontainer.SaveSmartLock;
 
@@ -25,6 +29,9 @@ import static msa.auth.util.Preconditions.checkNotNull;
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class BaseHelper {
+
+    private static final String TAG = "BaseHelper";
+
     private final FlowParameters mFlowParams;
     protected Context mContext;
     protected ProgressDialog mProgressDialog;
@@ -50,8 +57,11 @@ public class BaseHelper {
     }
 
     public void finishActivity(Activity activity, int resultCode, Intent intent) {
+        Log.d(TAG, "Result code =  " + resultCode);
         activity.setResult(resultCode, intent);
-        activity.finish();
+        if (resultCode == ResultCodes.OK) launchReceivedActivity(activity);
+        else activity.finish();
+
     }
 
     public void showLoadingDialog(String message) {
@@ -115,6 +125,39 @@ public class BaseHelper {
                     firebaseUser,
                     password,
                     response);
+        }
+    }
+
+    @Deprecated
+    private void launchKickOffActivityAgain(Activity activity) {
+        Log.d(TAG, "launchKickOffActivityAgain");
+        FlowParameters flowParameters = new FlowParameters(
+                activity.getString(R.string.app_name),
+                getFlowParams().providerInfo,
+                getFlowParams().themeId,
+                getFlowParams().logoId,
+                getFlowParams().backgroundId,
+                getFlowParams().phoneButtonBackgroundColor,
+                getFlowParams().termsOfServiceUrl,
+                getFlowParams().privacyPolicyUrl,
+                false,
+                false,
+                getFlowParams().allowNewEmailAccounts,
+                getFlowParams().alwaysShowAuthMethodPicker,
+                getFlowParams().intentToStartAfterSuccessfulLogin);
+        Intent intent1 = KickoffActivity.createIntent(activity.getApplicationContext(), flowParameters);
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activity.startActivity(intent1);
+    }
+
+    private void launchReceivedActivity(Activity activity) {
+        Log.d(TAG, "launchReceivedActivity");
+        if (getFlowParams().intentToStartAfterSuccessfulLogin != null) {
+            ComponentName componentName = new ComponentName(activity, getFlowParams().intentToStartAfterSuccessfulLogin);
+            Intent intent = new Intent();
+            intent.setComponent(componentName);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            activity.startActivity(intent);
         }
     }
 }

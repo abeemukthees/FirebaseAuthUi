@@ -190,7 +190,8 @@ public class WelcomeBackIdpPrompt extends AppCompatBase implements IdpCallback {
                     .addOnCompleteListener(new FinishListener(idpResponse));
         }
 
-        launchReceivedActivity();
+        //May not be required here, because BaseHelper will take care. But not tested with email
+        //launchReceivedActivity();
 
     }
 
@@ -205,10 +206,12 @@ public class WelcomeBackIdpPrompt extends AppCompatBase implements IdpCallback {
     }
 
     private void launchReceivedActivity() {
+        Log.d(TAG, "launchReceivedActivity");
         if (mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin != null) {
             ComponentName componentName = new ComponentName(this, mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin);
             Intent intent = new Intent();
             intent.setComponent(componentName);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
     }

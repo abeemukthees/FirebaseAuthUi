@@ -146,12 +146,6 @@ public class IdpSignInContainer extends FragmentBase implements IdpCallback {
                         RC_WELCOME_BACK_IDP,
                         response));
 
-        if (getArguments() != null && getArguments().containsKey(ExtraConstants.EXTRA_FLOW_PARAMETERS)) {
-            FlowParameters flowParameters = getArguments().getParcelable(ExtraConstants.EXTRA_FLOW_PARAMETERS);
-            if (flowParameters != null && flowParameters.intentToStartAfterSuccessfulLogin != null)
-                launchReceivedActivity(new ComponentName(getActivity(), flowParameters.intentToStartAfterSuccessfulLogin));
-        }
-
     }
 
     @Override
@@ -173,8 +167,10 @@ public class IdpSignInContainer extends FragmentBase implements IdpCallback {
     }
 
     private void launchReceivedActivity(ComponentName componentName) {
+        Log.d(TAG, "launchReceivedActivity");
         Intent intent = new Intent();
         intent.setComponent(componentName);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 }

@@ -199,9 +199,9 @@ public class SaveSmartLock extends SmartLockBase<Status> {
      * @param password     (optional) password for email credential.
      * @param response     (optional) an {@link IdpResponse} representing the result of signing in.
      */
-    public void saveCredentialsOrFinish(FirebaseUser firebaseUser,
-                                        @Nullable String password,
-                                        @Nullable IdpResponse response) {
+    public void saveCredentialsOrFinish(FirebaseUser firebaseUser, @Nullable String password, @Nullable IdpResponse response) {
+        Log.d(TAG, "saveCredentialsOrFinish");
+
         mResponse = response;
 
         if (!mHelper.getFlowParams().enableCredentials) {

@@ -167,4 +167,6 @@ public abstract class SmartLockBase<R extends Result> extends FragmentBase imple
     public void onConnectionSuspended(int i) {
         // Just wait
     }
+
+
 }

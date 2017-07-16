@@ -46,7 +46,6 @@ import msa.auth.AuthUI;
 import msa.auth.AuthUI.IdpConfig;
 import msa.auth.IdpResponse;
 import msa.auth.R;
-import msa.auth.ResultCodes;
 import msa.auth.provider.EmailProvider;
 import msa.auth.provider.FacebookProvider;
 import msa.auth.provider.GoogleProvider;
@@ -198,7 +197,7 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
         }
     }
 
-    @Override
+   /* @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult = " + resultCode);
@@ -212,6 +211,18 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
             finish(resultCode, data);
         } else {
             Log.d(TAG, "onActivityResult -> else");
+            for (Provider provider : mProviders) {
+                provider.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }*/
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_ACCOUNT_LINK) {
+            finish(resultCode, data);
+        } else {
             for (Provider provider : mProviders) {
                 provider.onActivityResult(requestCode, resultCode, data);
             }
@@ -288,12 +299,14 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
     }
 
     private void launchReceivedActivity() {
+        Log.d(TAG, "launchReceivedActivity");
         if (mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin != null) {
             //Log.d(TAG, "Received activity name 1 = " + mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin);
             ComponentName componentName = new ComponentName(this, mActivityHelper.getFlowParams().intentToStartAfterSuccessfulLogin);
             //Log.d(TAG, "componentName = " + componentName.getClass().getSimpleName());
             Intent intent = new Intent();
             intent.setComponent(componentName);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
     }

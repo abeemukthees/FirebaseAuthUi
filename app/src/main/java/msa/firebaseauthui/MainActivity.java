@@ -1,10 +1,12 @@
 package msa.firebaseauthui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,8 +19,11 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 
 import msa.auth.AuthUI;
+import msa.auth.ResultCodes;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     FirebaseApp firebaseApp;
 
@@ -49,11 +54,41 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 11) {
+            if (resultCode == ResultCodes.CANCELED) finish();
+        }
+    }
+
     private void login() {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        startActivityForResult(
+        Intent intent = AuthUI.getInstance(firebaseApp)
+                .createSignInIntentBuilder()
+                .setIsSmartLockEnabled(true)
+                .setAvailableProviders(
+                        Arrays.asList(
+                                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                                new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()
+                        ))
+                .alwaysShowAuthMethodPicker(true)
+                .setLogo(R.drawable.ic_store_mall_directory)
+                .setBackgroundDrawable(R.drawable.bg_auth_picker)
+                .setIntentAfterSuccessfulLogin(HomeActivity.class.getName())
+                .build();
+        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivityForResult(intent, 11);
+
+       /* startActivityForResult(
                 AuthUI.getInstance(firebaseApp)
                         .createSignInIntentBuilder()
                         .setIsSmartLockEnabled(true)
@@ -66,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         .setLogo(R.drawable.ic_store_mall_directory)
                         .setBackgroundDrawable(R.drawable.bg_auth_picker)
                         .setIntentAfterSuccessfulLogin(HomeActivity.class.getName())
-                        .build(), 1);
+                        .build(), 1);*/
 
 
         /*if (user != null) {
