@@ -158,6 +158,6 @@ public class BaseHelper {
             intent.setComponent(componentName);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             activity.startActivity(intent);
-        }
+        } else activity.finish();
     }
 }
