@@ -30,6 +30,7 @@ import com.facebook.FacebookRequestError;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.WebDialog;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.firebase.auth.AuthCredential;
@@ -65,7 +66,7 @@ public class FacebookProvider implements IdpProvider, FacebookCallback<LoginResu
         } else {
             mScopes = scopes;
         }
-        FacebookSdk.setWebDialogTheme(theme);
+        WebDialog.setWebDialogTheme(theme);
     }
 
     public static AuthCredential createAuthCredential(IdpResponse response) {
