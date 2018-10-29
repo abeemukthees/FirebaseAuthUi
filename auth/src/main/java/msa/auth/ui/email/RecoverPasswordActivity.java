@@ -17,16 +17,16 @@ package msa.auth.ui.email;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RestrictTo;
 import msa.auth.R;
 import msa.auth.ui.AppCompatBase;
 import msa.auth.ui.BaseHelper;
@@ -57,7 +57,7 @@ public class RecoverPasswordActivity extends AppCompatBase implements View.OnCli
 
         mEmailFieldValidator =
                 new EmailFieldValidator((TextInputLayout) findViewById(R.id.email_layout));
-        mEmailEditText = (EditText) findViewById(R.id.email);
+        mEmailEditText = findViewById(R.id.email);
 
         String email = getIntent().getStringExtra(ExtraConstants.EXTRA_EMAIL);
         if (email != null) {

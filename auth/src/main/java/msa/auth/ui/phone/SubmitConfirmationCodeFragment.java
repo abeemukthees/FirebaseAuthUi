@@ -16,11 +16,6 @@ package msa.auth.ui.phone;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +24,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.FragmentActivity;
 import msa.auth.R;
 import msa.auth.ui.ExtraConstants;
 import msa.auth.ui.FlowParameters;
@@ -75,12 +75,12 @@ public class SubmitConfirmationCodeFragment extends FragmentBase {
         View v = inflater.inflate(R.layout.confirmation_code_layout, container, false);
         FragmentActivity parentActivity = getActivity();
 
-        mEditPhoneTextView = (TextView) v.findViewById(R.id.edit_phone_number);
-        mCountDownTextView = (TextView) v.findViewById(R.id.ticker);
-        mResendCodeTextView = (TextView) v.findViewById(R.id.resend_code);
-        mConfirmationCodeEditText = (SpacedEditText) v.findViewById(R.id.confirmation_code);
-        mSubmitConfirmationButton = (Button) v.findViewById(R.id.submit_confirmation_code);
-        mAgreementText = (TermsTextView) v.findViewById(R.id.create_account_tos);
+        mEditPhoneTextView = v.findViewById(R.id.edit_phone_number);
+        mCountDownTextView = v.findViewById(R.id.ticker);
+        mResendCodeTextView = v.findViewById(R.id.resend_code);
+        mConfirmationCodeEditText = v.findViewById(R.id.confirmation_code);
+        mSubmitConfirmationButton = v.findViewById(R.id.submit_confirmation_code);
+        mAgreementText = v.findViewById(R.id.create_account_tos);
 
         final String phoneNumber = getArguments().getString(ExtraConstants.EXTRA_PHONE);
 

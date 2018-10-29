@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.annotation.RestrictTo;
 import android.util.Log;
 
+import androidx.annotation.RestrictTo;
 import msa.auth.ui.ActivityHelper;
 import msa.auth.ui.ExtraConstants;
 import msa.auth.ui.FlowParameters;

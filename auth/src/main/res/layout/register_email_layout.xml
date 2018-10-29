@@ -15,7 +15,7 @@
             Since the TextInputLayouts change size based on whether or not an error
             is showing we use a relative layout to position them absolutely
         -->
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_layout"
             style="@style/FirebaseUI.TextInputLayout.EmailField"
             android:layout_width="match_parent"
@@ -26,13 +26,13 @@
             app:errorEnabled="true"
             tools:ignore="UnusedAttribute">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
                 style="@style/FirebaseUI.TextInputEditText.EmailField" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/name_layout"
             style="@style/Widget.Design.TextInputLayout"
             android:layout_width="match_parent"
@@ -41,15 +41,15 @@
             android:paddingTop="@dimen/field_padding_vert"
             app:errorEnabled="true">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_layout"
             style="@style/FirebaseUI.TextInputLayout.PasswordField"
             android:layout_width="match_parent"
@@ -58,11 +58,11 @@
             app:errorEnabled="true"
             app:passwordToggleEnabled="true">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
                 style="@style/FirebaseUI.TextInputEditText.PasswordField" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <msa.auth.ui.TermsTextView
             android:id="@+id/create_account_text"

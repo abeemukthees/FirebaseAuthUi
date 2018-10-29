@@ -3,9 +3,10 @@ package msa.auth.provider;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.LayoutRes;
 
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import androidx.annotation.LayoutRes;
 
 public interface Provider {
     /**

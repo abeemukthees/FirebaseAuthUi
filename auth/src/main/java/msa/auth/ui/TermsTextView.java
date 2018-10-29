@@ -15,10 +15,10 @@
 package msa.auth.ui;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.AppCompatTextView;
 import msa.auth.ui.email.PreambleHandler;
 
 /**

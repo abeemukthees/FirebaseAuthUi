@@ -17,12 +17,12 @@ package msa.auth.ui.email;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.RestrictTo;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.FragmentTransaction;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.EmailAuthProvider;
 
+import androidx.annotation.RestrictTo;
+import androidx.fragment.app.FragmentTransaction;
 import msa.auth.IdpResponse;
 import msa.auth.R;
 import msa.auth.ui.AppCompatBase;
@@ -123,7 +123,7 @@ public class RegisterEmailActivity extends AppCompatBase implements
         // New user, direct them to create an account with email/password
         // if account creation is enabled in SignInIntentBuilder
 
-        TextInputLayout emailLayout = (TextInputLayout) findViewById(R.id.email_layout);
+        TextInputLayout emailLayout = findViewById(R.id.email_layout);
 
         if (mActivityHelper.getFlowParams().allowNewEmailAccounts) {
             RegisterEmailFragment fragment = RegisterEmailFragment.newInstance(

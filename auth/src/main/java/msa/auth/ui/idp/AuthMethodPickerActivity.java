@@ -24,12 +24,6 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,11 +31,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import msa.auth.AuthUI;
 import msa.auth.AuthUI.IdpConfig;
 import msa.auth.IdpResponse;
@@ -101,7 +101,7 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
         setContentView(R.layout.auth_method_picker_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -120,11 +120,11 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
 
             findViewById(R.id.logo_layout).setVisibility(View.GONE);
         } else {
-            ImageView logo = (ImageView) findViewById(R.id.logo);
+            ImageView logo = findViewById(R.id.logo);
             logo.setImageResource(logoId);
         }
 
-        CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        CoordinatorLayout coordinatorLayout = findViewById(R.id.coordinatorLayout);
 
         int backgroundId = mActivityHelper.getFlowParams().backgroundId;
         if (backgroundId != NO_BACKGROUND) coordinatorLayout.setBackgroundResource(backgroundId);
@@ -158,7 +158,7 @@ public class AuthMethodPickerActivity extends AppCompatBase implements IdpCallba
             }
         }
 
-        ViewGroup btnHolder = (ViewGroup) findViewById(R.id.btn_holder);
+        ViewGroup btnHolder = findViewById(R.id.btn_holder);
         for (final Provider provider : mProviders) {
             View loginButton = getLayoutInflater()
                     .inflate(provider.getButtonLayout(), btnHolder, false);

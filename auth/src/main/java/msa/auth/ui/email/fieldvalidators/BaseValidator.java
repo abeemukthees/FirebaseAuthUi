@@ -14,7 +14,7 @@
 
 package msa.auth.ui.email.fieldvalidators;
 
-import android.support.design.widget.TextInputLayout;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class BaseValidator {
     protected TextInputLayout mErrorContainer;

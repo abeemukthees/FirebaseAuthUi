@@ -1,9 +1,6 @@
 package msa.auth.util;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -16,6 +13,10 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 
 import java.net.ConnectException;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * A {@link Task} based wrapper to get a connect {@link GoogleApiClient}.

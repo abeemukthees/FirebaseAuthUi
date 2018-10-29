@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.util.Log;
 
 import com.google.firebase.auth.AuthCredential;
@@ -21,6 +20,7 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import java.lang.ref.WeakReference;
 
+import androidx.annotation.LayoutRes;
 import msa.auth.AuthUI;
 import msa.auth.IdpResponse;
 import msa.auth.R;

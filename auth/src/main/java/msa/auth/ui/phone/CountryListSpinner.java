@@ -21,8 +21,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -31,6 +29,9 @@ import android.widget.ListView;
 
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.widget.AppCompatEditText;
 
 public final class CountryListSpinner extends AppCompatEditText implements
         View.OnClickListener, CountryListLoadTask.Listener {

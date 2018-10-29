@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,8 +21,12 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.EmailAuthProvider;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import msa.auth.R;
 import msa.auth.provider.ProviderUtils;
 import msa.auth.ui.ExtraConstants;
@@ -77,8 +77,8 @@ public class CheckEmailFragment extends FragmentBase implements
         View v = inflater.inflate(R.layout.check_email_layout, container, false);
 
         // Email field and validator
-        mEmailLayout = (TextInputLayout) v.findViewById(R.id.email_layout);
-        mEmailEditText = (EditText) v.findViewById(R.id.email);
+        mEmailLayout = v.findViewById(R.id.email_layout);
+        mEmailEditText = v.findViewById(R.id.email);
         mEmailFieldValidator = new EmailFieldValidator(mEmailLayout);
         mEmailLayout.setOnClickListener(this);
         mEmailEditText.setOnClickListener(this);

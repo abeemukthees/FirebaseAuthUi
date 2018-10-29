@@ -20,13 +20,13 @@ package msa.auth.ui.phone;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ScaleXSpan;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatEditText;
 import msa.auth.R;
 
 /**

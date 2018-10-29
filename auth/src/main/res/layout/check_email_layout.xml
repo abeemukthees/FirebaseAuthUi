@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_layout"
         style="@style/FirebaseUI.TextInputLayout.EmailField"
         android:layout_width="match_parent"
@@ -15,11 +15,11 @@
         android:transitionName="email_field"
         tools:ignore="UnusedAttribute">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             style="@style/FirebaseUI.TextInputEditText.EmailField" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/button_next"

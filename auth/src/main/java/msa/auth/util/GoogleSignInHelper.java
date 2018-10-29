@@ -1,7 +1,6 @@
 package msa.auth.util;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.credentials.Credential;
@@ -11,6 +10,8 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
+
+import androidx.fragment.app.FragmentActivity;
 
 public class GoogleSignInHelper extends GoogleApiHelper {
     protected GoogleSignInHelper(FragmentActivity activity, GoogleApiClient.Builder builder) {

@@ -18,10 +18,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +36,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.fragment.app.FragmentActivity;
 import msa.auth.R;
 import msa.auth.ui.ExtraConstants;
 import msa.auth.ui.FlowParameters;
@@ -79,11 +79,11 @@ public class VerifyPhoneNumberFragment extends FragmentBase implements View.OnCl
 
         View v = inflater.inflate(R.layout.phone_layout, container, false);
 
-        countryListSpinner = (CountryListSpinner) v.findViewById(R.id.country_list);
-        mPhoneEditText = (EditText) v.findViewById(R.id.phone_number);
-        errorEditText = (TextView) v.findViewById(R.id.phone_number_error);
-        sendCodeButton = (Button) v.findViewById(R.id.send_code);
-        mSmsTermsText = (TextView) v.findViewById(R.id.send_sms_tos);
+        countryListSpinner = v.findViewById(R.id.country_list);
+        mPhoneEditText = v.findViewById(R.id.phone_number);
+        errorEditText = v.findViewById(R.id.phone_number_error);
+        sendCodeButton = v.findViewById(R.id.send_code);
+        mSmsTermsText = v.findViewById(R.id.send_sms_tos);
 
         FragmentActivity parentActivity = getActivity();
         parentActivity.setTitle(getString(R.string.verify_phone_number_title));

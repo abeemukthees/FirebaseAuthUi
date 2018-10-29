@@ -18,10 +18,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.design.widget.TextInputLayout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -33,11 +29,15 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import msa.auth.ErrorCodes;
 import msa.auth.IdpResponse;
 import msa.auth.R;
@@ -88,9 +88,9 @@ public class WelcomeBackPasswordPrompt extends AppCompatBase
         mIdpResponse = IdpResponse.fromResultIntent(getIntent());
         mEmail = mIdpResponse.getEmail();
 
-        TextView welcomeBackHeader = (TextView) findViewById(R.id.welcome_back_email_header);
-        mPasswordLayout = (TextInputLayout) findViewById(R.id.password_layout);
-        mPasswordField = (EditText) findViewById(R.id.password);
+        TextView welcomeBackHeader = findViewById(R.id.welcome_back_email_header);
+        mPasswordLayout = findViewById(R.id.password_layout);
+        mPasswordField = findViewById(R.id.password);
 
         ImeHelper.setImeOnDoneListener(mPasswordField, this);
 
@@ -105,7 +105,7 @@ public class WelcomeBackPasswordPrompt extends AppCompatBase
                 emailStart + mEmail.length(),
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
-        TextView bodyTextView = ((TextView) findViewById(R.id.welcome_back_password_body));
+        TextView bodyTextView = findViewById(R.id.welcome_back_password_body);
         bodyTextView.setText(spannableStringBuilder);
 
         // Click listeners

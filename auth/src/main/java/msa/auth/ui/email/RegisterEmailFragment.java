@@ -1,10 +1,6 @@
 package msa.auth.ui.email;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +12,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -24,6 +21,9 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import msa.auth.IdpResponse;
 import msa.auth.R;
 import msa.auth.provider.ProviderUtils;
@@ -93,12 +93,12 @@ public class RegisterEmailFragment extends FragmentBase implements
 
         View v = inflater.inflate(R.layout.register_email_layout, container, false);
 
-        mEmailEditText = (EditText) v.findViewById(R.id.email);
-        mNameEditText = (EditText) v.findViewById(R.id.name);
-        mPasswordEditText = (EditText) v.findViewById(R.id.password);
-        mAgreementText = (TermsTextView) v.findViewById(R.id.create_account_text);
-        mEmailInput = (TextInputLayout) v.findViewById(R.id.email_layout);
-        mPasswordInput = (TextInputLayout) v.findViewById(R.id.password_layout);
+        mEmailEditText = v.findViewById(R.id.email);
+        mNameEditText = v.findViewById(R.id.name);
+        mPasswordEditText = v.findViewById(R.id.password);
+        mAgreementText = v.findViewById(R.id.create_account_text);
+        mEmailInput = v.findViewById(R.id.email_layout);
+        mPasswordInput = v.findViewById(R.id.password_layout);
 
         mPasswordFieldValidator = new PasswordFieldValidator(
                 mPasswordInput,

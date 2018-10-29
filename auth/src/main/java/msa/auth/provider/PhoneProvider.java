@@ -3,10 +3,10 @@ package msa.auth.provider;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.LayoutRes;
 
 import com.google.firebase.auth.PhoneAuthProvider;
 
+import androidx.annotation.LayoutRes;
 import msa.auth.AuthUI;
 import msa.auth.R;
 import msa.auth.ResultCodes;

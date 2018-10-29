@@ -15,9 +15,6 @@
 package msa.auth.ui.idp;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +26,9 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
 import msa.auth.ErrorCodes;
 import msa.auth.IdpResponse;
 import msa.auth.ResultCodes;

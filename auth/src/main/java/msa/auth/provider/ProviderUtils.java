@@ -14,8 +14,6 @@
 
 package msa.auth.provider;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.android.gms.tasks.Continuation;
@@ -30,6 +28,8 @@ import com.google.firebase.auth.TwitterAuthProvider;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import msa.auth.IdpResponse;
 import msa.auth.ui.TaskFailureLogger;
 
@@ -64,7 +64,7 @@ public final class ProviderUtils {
                         new TaskFailureLogger(TAG, "Error fetching providers for email"))
                 .continueWith(new Continuation<ProviderQueryResult, String>() {
                     @Override
-                    public String then(@NonNull Task<ProviderQueryResult> task) throws Exception {
+                    public String then(@NonNull Task<ProviderQueryResult> task) {
                         if (!task.isSuccessful()) return null;
 
                         List<String> providers = task.getResult().getProviders();

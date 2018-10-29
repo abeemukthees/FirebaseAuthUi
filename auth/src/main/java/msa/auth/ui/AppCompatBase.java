@@ -15,7 +15,8 @@
 package msa.auth.ui;
 
 import android.os.Bundle;
-import android.support.annotation.RestrictTo;
+
+import androidx.annotation.RestrictTo;
 
 @SuppressWarnings("Registered")
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)

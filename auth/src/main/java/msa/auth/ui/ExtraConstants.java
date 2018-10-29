@@ -14,7 +14,7 @@
 
 package msa.auth.ui;
 
-import android.support.annotation.RestrictTo;
+import androidx.annotation.RestrictTo;
 
 /**
  * Constants used for passing Intent extra params between authentication flow activities.

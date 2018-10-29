@@ -4,9 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
-import android.support.annotation.RestrictTo;
-import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
+
+import androidx.annotation.RestrictTo;
+import androidx.fragment.app.Fragment;
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class FragmentHelper extends BaseHelper {

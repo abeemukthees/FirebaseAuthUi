@@ -14,8 +14,9 @@
 
 package msa.auth.ui.email.fieldvalidators;
 
-import android.support.design.widget.TextInputLayout;
 import android.util.Patterns;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import msa.auth.R;
 

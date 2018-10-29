@@ -16,7 +16,8 @@ package msa.auth.util;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.StyleRes;
+
+import androidx.annotation.StyleRes;
 
 /**
  * Precondition checking utility methods.
