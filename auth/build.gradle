@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 14
-        versionName "0.0.14"
+        versionCode 15
+        versionName "0.0.15"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -40,7 +40,7 @@ dependencies {
 
 
 
-    provided("com.twitter.sdk.android:twitter-core:3.0.0@aar") { transitive = true }
+    provided("com.twitter.sdk.android:twitter-core:3.3.0@aar") { transitive = true }
 
     // The following libraries are needed to prevent incompatibilities with the facebook
     // library when updating com.android.support libraries:
@@ -53,7 +53,7 @@ dependencies {
     api 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     testImplementation 'junit:junit:4.12'
-    provided 'com.facebook.android:facebook-android-sdk:4.32.0'
+    provided 'com.facebook.android:facebook-android-sdk:4.38.0'
 
-    implementation 'com.github.jitpack:gradle-simple:1.0'
+    implementation 'com.github.jitpack:gradle-simple:1.0.5'
 }
