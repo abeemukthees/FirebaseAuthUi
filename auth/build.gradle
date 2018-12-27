@@ -11,7 +11,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 15
-        versionName "0.0.15"
+        versionName "0.0.16"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -46,14 +46,14 @@ dependencies {
     // library when updating com.android.support libraries:
 
 
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
-    api 'com.google.firebase:firebase-auth:16.0.5'
+    api 'com.google.firebase:firebase-auth:16.1.0'
     api 'com.google.android.gms:play-services-auth:16.0.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     testImplementation 'junit:junit:4.12'
-    provided 'com.facebook.android:facebook-android-sdk:4.38.0'
+    compileOnly 'com.facebook.android:facebook-android-sdk:4.38.0'
 
     implementation 'com.github.jitpack:gradle-simple:1.0.5'
 }
